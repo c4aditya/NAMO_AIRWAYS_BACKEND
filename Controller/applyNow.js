@@ -3,8 +3,10 @@ const ApplyForm = require("../Models/user")
 async function applyNow(req,res){
     try{
 
-        const {fullName } = req.body
-        const high = req.files.file;
+        const {fullName , email} = req.body
+        // it is an hairechy to send any file form the frontend req.file.which name we use form sending an file 
+        const high = req.files.highSchool;
+        const inter = req.files.inter;
         console.log(high)
 
         // storing the files in server 
@@ -15,10 +17,19 @@ async function applyNow(req,res){
                 message:"Please fill all the feilds"
             })
         }
-         let fileExtension =  high.name.split('.').pop();
-         let path = __dirname + "/temp/" + Date.now() + "." + fileExtension;
+        // high school file extension save 
+
+         let highSchool = high.name.split('.').pop();
+         let path = __dirname + "/hignSchoolResults/" + Date.now() + "." + highSchool;
  
          high.mv(path,(error)=>{
+            console.log(error)
+        })
+
+        // inter result path 
+        let interClass = inter.name.split('.').pop();
+        let interPath = __dirname + "/interResultFiles/" + Date.now() + "." + interClass;
+         inter.mv(interPath,(error)=>{
             console.log(error)
         })
 
@@ -32,7 +43,9 @@ async function applyNow(req,res){
         // if all good then make a db entry 
         const userData = await ApplyForm.create({
              fullName ,
-             high:path
+             email,
+             high:path,
+             inter:interPath 
            
             
         })
