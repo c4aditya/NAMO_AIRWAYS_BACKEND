@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 5700
 
 app.use(express.json());
 
+// adding body parsher for file uploade
+
+app.use()
 // adding  routes
 const route = require("./Routes/form")
 app.use("/api/v1",route)

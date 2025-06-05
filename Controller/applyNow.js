@@ -4,7 +4,7 @@ async function applyNow(req,res){
     try{
 
         const {fullName ,fatherName, email,phoneNumber,birth,gender,password,confirmPassword, education,address,appliedFor, addharNumber} = req.body
-
+        
         if(!fullName || !fatherName || !email || ! phoneNumber || !birth || !gender || !password || !confirmPassword || !education || !address || !appliedFor || !addharNumber){
             return res.status(500).json({
                 sucess:false,

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/c4aditya/NAMO_AIRWAYS_BACKEND#readme",
   "description": "",
   "dependencies": {
+    "cloudinary": "^2.6.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongoose": "^8.15.1",
