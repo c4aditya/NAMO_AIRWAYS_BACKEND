@@ -3,36 +3,38 @@ const ApplyForm = require("../Models/user")
 async function applyNow(req,res){
     try{
 
-        const {fullName ,fatherName, email,phoneNumber,birth,gender,password,confirmPassword, education,address,appliedFor, addharNumber} = req.body
-        
-        if(!fullName || !fatherName || !email || ! phoneNumber || !birth || !gender || !password || !confirmPassword || !education || !address || !appliedFor || !addharNumber){
+        const {fullName } = req.body
+        const high = req.files.file;
+        console.log(high)
+
+        // storing the files in server 
+
+        if(!fullName){
             return res.status(500).json({
                 sucess:false,
                 message:"Please fill all the feilds"
             })
         }
+         let fileExtension =  high.name.split('.').pop();
+         let path = __dirname + "/temp/" + Date.now() + "." + fileExtension;
+ 
+         high.mv(path,(error)=>{
+            console.log(error)
+        })
 
-        if(password == !confirmPassword){
-            return res.status(500).json({
-                success:false,
-                message:"Password is not match"
-            })
-        }
+        // if(password !== confirmPassword){
+        //     return res.status(500).json({
+        //         success:false,
+        //         message:"Password is not match"
+        //     })
+        // }
 
         // if all good then make a db entry 
         const userData = await ApplyForm.create({
-            fullName ,
-            fatherName,
-             email,
-             phoneNumber,
-             birth,
-             gender,
-             password,
-             confirmPassword,
-             education,
-             address,
-             appliedFor, 
-             addharNumber
+             fullName ,
+             high:path
+           
+            
         })
 
         console.log(userData)
