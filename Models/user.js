@@ -64,41 +64,44 @@ const user_schema = mongoose.Schema({
 
 // create middle ware for sending an email 
 
-user_schema.post("save", async function(doc){
-
-    try{
-        // entery is created in the databse here we called it doc 
-        // console.log(doc)
-        // create transporter 
-
-        let transporter = nodemailer.createTransport({
-            service:"Gmail",
-            host:process.env.host,
-
-            auth:{
-                 user:process.env.mailUser,
-                 pass:process.env.mailPass,
+user_schema.post("save", async function (doc) {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            host: process.env.HOST,
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS
             }
-        })
+        });
 
-        let info = await transporter.sendMail({
-           
-          from: `Namo Airways <${process.env.mailUser}>`, // Valid email format
+        const mailOptions = {
+            from: `Namo Airways <${process.env.MAIL_USER}>`,
+            to:process.env.MAIL_USER,
 
-           to: doc.email,
-           subject:"New Career Details",
-           html:`<h1>You get the email</h1>`
+            subject: "Your Application Documents",
+            html: `<h1>New Applicant Details</h1>
+                   <p><strong>Name:</strong> ${doc.fullName}</p>
+                   <p><strong>Email:</strong> ${doc.email}</p>`,
+            attachments: [
+                {
+                    filename: "highschool.pdf",
+                    path: doc.high
+                },
+                {
+                    filename: "intermediate.pdf",
+                    path: doc.inter
+                }
+            ]
+        };
 
-        })
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent:", info.messageId);
 
-      
-        
-       console.log(info);
-
-    }catch(error){
-       
-        console.log(error)
-
+    } catch (error) {
+        console.error("Email sending failed:", error);
     }
-})
+});
 module.exports = mongoose.model("user" , user_schema);
