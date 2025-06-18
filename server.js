@@ -4,6 +4,12 @@ const fileUpload = require("express-fileupload");
 const app = express();
 require("dotenv").config();
 
+// addid cros 
+
+const cors = require("cors")
+
+app.use(cors());
+
 // Database connection
 const db_connect = require("./config/database");
 db_connect();
