@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // ✅ CORS middleware (frontend origin yahan set karo)
 app.use(cors({
-  origin: ["http://localhost:5173", "http://127.0.0.1:3000"], // React app URL
+  origin: ["http://localhost:5173", "http://127.0.0.1:3000", "https://namoairways.com/"], // React app URL
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   credentials: true
 }));
